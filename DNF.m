@@ -1,4 +1,4 @@
-function [ chyby_A, chyby_B, sloty ] = DNF ( data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul )
+function [ chyby_A, chyby_B] = DNF ( data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul )
 % Technika Denoise and Forward
 
 % Mapování symbolù
@@ -34,9 +34,6 @@ end
 % pøevzato z DF
 chyby_A = sum(datanaA~=data_B);
 chyby_B = sum(datanaB~=data_A);
-
-% použité timesloty
-sloty = 2*numel(data_A);
 
 end
 

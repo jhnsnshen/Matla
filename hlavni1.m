@@ -13,14 +13,14 @@ SNR_do = 16;
 % SNR_do = SNR_od;  % manuálnì nastavený nulový rozsah SNR pro debugging
 SNR_naB = 15;
 
-SNR_A = SNR_od:2:SNR_do;
+SNR_A = SNR_od:1:SNR_do;
 
 % Volba modulace 1 - BPSK    2 - QPSK
 zvolmodul= 2;
 
-% Volba útlumu tras
-h_A = 1;
-h_B = 1;
+% Volba útlumu tras v dB
+h_A = -5;
+h_B = -12;
 
 % Volba typu kanálu 1 - AWGN   2 - Rayleighùv
 kanal = 1;
@@ -44,7 +44,7 @@ for NC = 1:4      % parfor sem
         SNR_AR = SNR_A(t);
 %         SNR_BR = SNR_A(t) + SNR_naB;
         SNR_BR = SNR_naB;
-        [BER(t,NC,1:3), time_bez(t,NC,1:3)]= vypocet(data_Ac, data_Bc, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul, NC);
+        BER(t,NC,1:3)= vypocet(data_Ac, data_Bc, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul, NC);
         % time_bez - èas metody bez zohlednìní chybovosti
     end
     fprintf('dokonèena metoda %d\n', NC)

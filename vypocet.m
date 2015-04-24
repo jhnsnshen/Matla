@@ -9,7 +9,7 @@ cas = 0;
 
 % Rozsekání bitù na pakety   bude potøeba asi ošetøit poslední paket, pokud
 % nemá 50 bitù
-R = 50;  % délka paketu v bitech
+R = 100;  % délka paketu v bitech
 r = floor (numel(data_Ac)/R); % urèení poètu paketù
 for s=1:r
     
@@ -21,16 +21,16 @@ for s=1:r
     %% Techniky Network codingu
     switch NC
         case 1 % Routování
-            [chybaA,chybaB, sloty] = routovani(data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul );
+            [chybaA,chybaB] = routovani(data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul );
             
         case 2 % Decode and Forward
-            [chybaA,chybaB, sloty] = DF(data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul );
+            [chybaA,chybaB] = DF(data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul );
             
         case 3 % Amplify and Forward
-            [chybaA,chybaB, sloty] = AF(data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul );
+            [chybaA,chybaB] = AF(data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul );
             
         case 4 % Denoise and Forward
-            [chybaA,chybaB, sloty] = DNF(data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul );
+            [chybaA,chybaB] = DNF(data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul );
 
     end
     

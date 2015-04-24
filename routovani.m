@@ -1,4 +1,4 @@
-function [ chyby_A, chyby_B, sloty ] = routovani( data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul )
+function [ chyby_A, chyby_B] = routovani( data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul )
 % Simulace klasické výmìny dat
 
 % Mapování symbolù
@@ -32,8 +32,5 @@ chyby_B = sum(datanaA~=data_B);
 % % Výpoèet BER
 % BER_A = chyby_A/(numel(data_A));
 % BER_B = chyby_B/(numel(data_B));
-
-% použité timesloty
-sloty = 4*numel(data_A);
 
 end

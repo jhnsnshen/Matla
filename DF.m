@@ -1,4 +1,4 @@
-function [ chyby_A, chyby_B, sloty ] = DF( data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul )
+function [ chyby_A, chyby_B] = DF( data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul )
 % Metoda Decode and Forward
 
 % Mapování symbolù
@@ -40,8 +40,6 @@ vysledek_B = xor (data_A, datanaA);
 chyby_A = sum(vysledek_A~=data_A);
 chyby_B = sum(vysledek_B~=data_B);
 
-% použité timesloty
-sloty = 3*numel(data_A);
 
 % % Výpoèet BER
 % BER_A = chyby_A / (numel(data_A));

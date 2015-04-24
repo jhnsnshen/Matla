@@ -1,4 +1,4 @@
-function [ chyby_A, chyby_B, sloty ] = AF ( data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul )
+function [ chyby_A, chyby_B] = AF ( data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul )
 % Amplify-and-Forward
 
 % Mapování symbolù
@@ -42,9 +42,5 @@ datanaB = demodulace (datasum_B, zvolmodul);
 % Porovnání dat s pùvodními
 chyby_A = sum(datanaB~=data_A);
 chyby_B = sum(datanaA~=data_B);
-
-
-% použité timesloty
-sloty = 2*numel(data_A);
 end
 
