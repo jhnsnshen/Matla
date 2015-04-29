@@ -1,5 +1,11 @@
-function [ chyby_A, chyby_B] = AF ( data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul )
+function [ chyby_A, chyby_B ] = AF ( data_A, data_B, SNR_AR, SNR_BR, kanal, zvolmodul, PnA, PnR, PnB )
 % Amplify-and-Forward
+
+% výpoèet útlumù
+hAR = -SNR_AR - PnR;
+hBR = -SNR_BR - PnR;
+hRA = -SNR_AR - PnA;
+hRB = -SNR_BR - PnB;
 
 % Mapování symbolù
 symboly_AR = modul (data_A, zvolmodul);
@@ -11,29 +17,28 @@ symboly_BR = modul (data_B, zvolmodul);
 % datasum_R = model_kanalu(signal_R, kanal,
 
 % Modelování kanálu vèetnì útlumu
-% nelze modelovat šum spoleènì, protože každý z kanálù má odlišné SNR
-datasum_AR = model_kanalu (symboly_AR,kanal, SNR_AR, h_A);
-datasum_BR = model_kanalu (symboly_BR,kanal, SNR_BR, h_B);
+prijato_R = model_kanalu2 (symboly_AR, hAR, symboly_BR, hBR, PnR);
+
 
 % Pøíjem na Relayi, souèet a zesílení celkového signálu
-prijato_R = datasum_AR + datasum_BR;
+% prijato_R = datasum_AR + datasum_BR;
 
-if (h_A > h_B)
-    odesle_R = prijato_R / h_B;
-elseif (h_A < h_B)
-    odesle_R = prijato_R / h_A;
+if (hAR < hBR)
+    odesle_R = prijato_R / 10^(-hBR/10);
+elseif (hAR < hBR)
+    odesle_R = prijato_R / 10^(-hRA/10);
 else
-    odesle_R = prijato_R / h_B;
+    odesle_R = prijato_R / 10^(-hBR/10);
 end
     
 
 % model kanálu pøi druhém pøenosu
-datasum_RB = model_kanalu (odesle_R, kanal, SNR_BR, h_B);
-datasum_RA = model_kanalu (odesle_R, kanal, SNR_AR, h_A);
+datasum_RB = model_kanalu (odesle_R, kanal, SNR_BR, PnB);
+datasum_RA = model_kanalu (odesle_R, kanal, SNR_AR, PnA);
 
 % odeètení signálu u pøíjemce
-datasum_A = datasum_RA - h_A * symboly_AR;
-datasum_B = datasum_RB - h_B * symboly_BR;
+datasum_A = datasum_RA - 10^(-hRA/10) * symboly_AR;
+datasum_B = datasum_RB - 10^(-hRB/10) * symboly_BR;
 
 % pokus o demodulaci
 datanaA = demodulace (datasum_A, zvolmodul);
@@ -42,5 +47,6 @@ datanaB = demodulace (datasum_B, zvolmodul);
 % Porovnání dat s pùvodními
 chyby_A = sum(datanaB~=data_A);
 chyby_B = sum(datanaA~=data_B);
+
 end
 

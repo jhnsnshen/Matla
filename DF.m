@@ -1,4 +1,4 @@
-function [ chyby_A, chyby_B] = DF( data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul )
+function [ chyby_A, chyby_B ] = DF( data_A, data_B, SNR_AR, SNR_BR, kanal, zvolmodul, PnA, PnR, PnB )
 % Metoda Decode and Forward
 
 % Mapování symbolù
@@ -6,8 +6,8 @@ symboly_AR = modul (data_A, zvolmodul);
 symboly_BR = modul (data_B, zvolmodul);
 
 % Modelování kanálu vèetnì útlumu
-datasum_AR = model_kanalu (symboly_AR,kanal, SNR_AR, h_A);
-datasum_BR = model_kanalu (symboly_BR,kanal, SNR_BR, h_B);
+datasum_AR = model_kanalu (symboly_AR,kanal, SNR_AR, PnR);
+datasum_BR = model_kanalu (symboly_BR,kanal, SNR_BR, PnR);
    
 % Demodulace na Relayi a odeslání dále  - data z A/B
 datazA = demodulace (datasum_AR,zvolmodul);
@@ -23,8 +23,8 @@ symboly_R = modul (datanaR, zvolmodul);
 
 
 % model kanálu pøi druhém pøenosu
-datasum_RB = model_kanalu (symboly_R, kanal, SNR_BR, h_B);
-datasum_RA = model_kanalu (symboly_R, kanal, SNR_AR, h_A);
+datasum_RB = model_kanalu (symboly_R, kanal, SNR_BR, PnB);
+datasum_RA = model_kanalu (symboly_R, kanal, SNR_AR, PnA);
 
 % Demodulace na koncových stanicích
 datanaB = demodulace (datasum_RB, zvolmodul);
@@ -40,9 +40,5 @@ vysledek_B = xor (data_A, datanaA);
 chyby_A = sum(vysledek_A~=data_A);
 chyby_B = sum(vysledek_B~=data_B);
 
-
-% % Výpoèet BER
-% BER_A = chyby_A / (numel(data_A));
-% BER_B = chyby_B / (numel(data_B));
 
 end

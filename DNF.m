@@ -1,4 +1,4 @@
-function [ chyby_A, chyby_B] = DNF ( data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul )
+function [ chyby_A, chyby_B ] = DNF ( data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul )
 % Technika Denoise and Forward
 
 % Mapování symbolù
@@ -10,7 +10,7 @@ datasum_AR = model_kanalu (symboly_AR,kanal, SNR_AR, h_A);
 datasum_BR = model_kanalu (symboly_BR,kanal, SNR_BR, h_B);
 
 % Pøíjem na Relayi, souèet a zesílení celkového signálu
-prijato_R = datasum_AR/h_A + datasum_BR/h_B;
+prijato_R = datasum_AR/10^(-h_A/10) + datasum_BR/10^(-h_B/10);
 symboly_R = odhad (prijato_R, zvolmodul);
 
 % Odeslání dále
@@ -34,6 +34,7 @@ end
 % pøevzato z DF
 chyby_A = sum(datanaA~=data_B);
 chyby_B = sum(datanaB~=data_A);
+
 
 end
 

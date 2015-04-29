@@ -1,4 +1,4 @@
-function [ BER, through ] = vypocet( data_Ac, data_Bc, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul, NC )
+function [ BER ] = vypocet( data_Ac, data_Bc, SNR_AR, SNR_BR, kanal, zvolmodul, NC, PnA, PnR, PnB )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -7,9 +7,9 @@ BER_B = 0;
 cas = 0;
 %%%%%%%%%% Samotné øešení
 
-% Rozsekání bitù na pakety   bude potøeba asi ošetøit poslední paket, pokud
-% nemá 50 bitù
-R = 100;  % délka paketu v bitech
+% Rozsekání bitù na pakety
+% nekompletní paket bude zahozený
+R = 50;  % délka paketu v bitech
 r = floor (numel(data_Ac)/R); % urèení poètu paketù
 for s=1:r
     
@@ -21,32 +21,24 @@ for s=1:r
     %% Techniky Network codingu
     switch NC
         case 1 % Routování
-            [chybaA,chybaB] = routovani(data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul );
+            [chybaA,chybaB] = routovani(data_A, data_B, SNR_AR, SNR_BR, kanal, zvolmodul, PnA, PnR, PnB );
             
         case 2 % Decode and Forward
-            [chybaA,chybaB] = DF(data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul );
+            [chybaA,chybaB] = DF(data_A, data_B, SNR_AR, SNR_BR, kanal, zvolmodul, PnA, PnR, PnB );
             
         case 3 % Amplify and Forward
-            [chybaA,chybaB] = AF(data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul );
+            [chybaA,chybaB] = AF(data_A, data_B, SNR_AR, SNR_BR, kanal, zvolmodul, PnA, PnR, PnB );
             
         case 4 % Denoise and Forward
-            [chybaA,chybaB] = DNF(data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul );
+            [chybaA,chybaB] = DNF(data_A, data_B, SNR_AR, SNR_BR, kanal, zvolmodul, PnA, PnR, PnB );
 
     end
     
     
-    %     find(demod_A-data_A);
-    %     chyby_A = sum(demod_A~=data_A);
-    %     chyby_B = sum(demod_B~=data_B);
-    
     % Vyhodnocení chybovosti
     BER_A = BER_A + chybaA;
     BER_B = BER_B + chybaB;
-    
-    % propustnost
-    cas = cas + sloty;
-    
-    
+
 end
 
 BER_A = BER_A / numel (data_Ac);
@@ -54,7 +46,7 @@ BER_B = BER_B / numel (data_Bc);
 
 
 BER = [BER_A BER_B (BER_A+BER_B)];
-through = cas;
+
 
 end
 
