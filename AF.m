@@ -34,8 +34,8 @@ end
     
 
 % model kanálu pøi druhém pøenosu
-datasum_RB = model_kanalu (odesle_R, SNR_BR, PnB);
 datasum_RA = model_kanalu (odesle_R, SNR_AR, PnA);
+datasum_RB = model_kanalu (odesle_R, SNR_BR, PnB);
 
 % odeètení signálu u pøíjemce
 datasum_A = datasum_RA - 10^(-hRA/10) * symboly_AR;

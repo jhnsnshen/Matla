@@ -30,7 +30,7 @@ for s=1:r
             [chybaA,chybaB] = AF(data_A, data_B, SNR_AR, SNR_BR, zvolmodul, PnA, PnR, PnB );
             
         case 4 % Denoise and Forward
-            [chybaA,chybaB] = DNF(data_A, data_B, SNR_AR, SNR_BR, kanal, zvolmodul, PnA, PnR, PnB );
+            [chybaA,chybaB] = DNF(data_A, data_B, SNR_AR, SNR_BR, zvolmodul, PnA, PnR, PnB );
 
     end
     

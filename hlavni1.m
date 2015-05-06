@@ -5,13 +5,13 @@ clc;
 tic
 %%%%%%%%% Zadání parametrù simulace
 % Poèet pøenášených bitù
-N=10^4; 
+N=10^5; 
 
 % Volba rozsahu SNR a rozdílu na trase BR
 SNR_od = 6;
 SNR_do = 20;
 % SNR_do = SNR_od;  % manuálnì nastavený nulový rozsah SNR pro debugging
-SNR_naB = 16;
+SNR_naB = 20;
 SNR_A = SNR_od:1:SNR_do;
 
 % úroveò šumu na jednotlivých pøijímaèích v -dBW
@@ -43,7 +43,7 @@ BER = zeros(numel(SNR_A),4,3);
 % % Volba techniky pøenosu 1 - routování   2 - DF  3 - AF  4 - DNF
 % NC = 2;
 
-for NC = 1:3     % parfor sem
+for NC = 3:4     % parfor sem
     for t = 1:numel(SNR_A)
         SNR_AR = SNR_A(t);
 %         SNR_BR = SNR_A(t) + SNR_naB;
