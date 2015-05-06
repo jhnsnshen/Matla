@@ -21,13 +21,13 @@ for s=1:r
     %% Techniky Network codingu
     switch NC
         case 1 % Routování
-            [chybaA,chybaB] = routovani(data_A, data_B, SNR_AR, SNR_BR, kanal, zvolmodul, PnA, PnR, PnB );
+            [chybaA,chybaB] = routovani(data_A, data_B, SNR_AR, SNR_BR, zvolmodul, PnA, PnR, PnB );
             
         case 2 % Decode and Forward
-            [chybaA,chybaB] = DF(data_A, data_B, SNR_AR, SNR_BR, kanal, zvolmodul, PnA, PnR, PnB );
+            [chybaA,chybaB] = DF(data_A, data_B, SNR_AR, SNR_BR, zvolmodul, PnA, PnR, PnB );
             
         case 3 % Amplify and Forward
-            [chybaA,chybaB] = AF(data_A, data_B, SNR_AR, SNR_BR, kanal, zvolmodul, PnA, PnR, PnB );
+            [chybaA,chybaB] = AF(data_A, data_B, SNR_AR, SNR_BR, zvolmodul, PnA, PnR, PnB );
             
         case 4 % Denoise and Forward
             [chybaA,chybaB] = DNF(data_A, data_B, SNR_AR, SNR_BR, kanal, zvolmodul, PnA, PnR, PnB );

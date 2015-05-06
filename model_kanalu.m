@@ -1,8 +1,9 @@
-function [ datasum ] = model_kanalu( symboly, kanal, SNR, Pnoise )
-    nuly (numel(symboly),1) = 1+1j;
-    sum = awgn (nuly, -Pnoise, 0);
-    h = -SNR - Pnoise;
-    datasum = 10^(-h/10) * symboly + sum;
+function [ datasum ] = model_kanalu( symboly, SNR, Pnoise )
+    nuly (numel(symboly),1) = (1+1j)*1e-3;
+    sum = awgn (nuly, Pnoise);
+    h = Pnoise - SNR;
+    data = 10^(-h/10) * symboly;
+    datasum = data + sum;
     
 
 %     switch kanal
