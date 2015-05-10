@@ -37,10 +37,13 @@ BER = zeros(numel(SNR_A),4,3);
 
 
 for NC = 1:4     % parfor sem
-    for t = 1:numel(SNR_A)
+    for t = 1:numel(SNR_A) % t udává aktuální šum na lince AR
         SNR_AR = SNR_A(t);
-        BER(t,NC,1:3) = vypocet(data_Ac, data_Bc, SNR_AR, SNR_BR, modulace, NC, PnA, PnR, PnB);
-%         BER(t,NC) = vypocet(data_Ac, data_Bc, SNR_AR, SNR_BR, modulace, NC, PnA, PnR, PnB); % pracovní verze
+        BER1(NC,1:3) = vypocet(data_Ac, data_Bc, SNR_AR, SNR_BR, modulace, NC, PnA, PnR, PnB);
+%         BER(t,NC,1:3) = vypocet(data_Ac, data_Bc, SNR_AR, SNR_BR, modulace, NC, PnA, PnR, PnB); % pracovní verze
+        
+        BER=[t;BER1]; % potøebuju pro parfor pøedávat pouze jednu promìnnou jako index
+
     end
     fprintf('dokonèena metoda %d\n', NC)
 end

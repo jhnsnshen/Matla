@@ -44,8 +44,8 @@ BER_A = BER_A / numel (data_Ac);
 BER_B = BER_B / numel (data_Bc);
 
 
-% BER = [BER_A BER_B (BER_A+BER_B)];
-BER = BER_A+BER_B;
+BER = [BER_A BER_B (BER_A+BER_B)];
+% BER = BER_A+BER_B;
 
 end
 
