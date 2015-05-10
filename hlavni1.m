@@ -1,33 +1,30 @@
-% clear all;        %problém clear all je, že maže breakpointy ve funkcích
+clear all;        %problém clear all je, že maže breakpointy ve funkcích
 close all;
 clc;
 
 tic
 %%%%%%%%% Zadání parametrù simulace
 % Poèet pøenášených bitù
-N=10^5; 
+N=10^4; 
 
-% Volba rozsahu SNR a rozdílu na trase BR
-SNR_od = 6;
-SNR_do = 20;
-% SNR_do = SNR_od;  % manuálnì nastavený nulový rozsah SNR pro debugging
-SNR_naB = 20;
-SNR_A = SNR_od:1:SNR_do;
+% Volba rozsahu SNR
+SNR_od = 0;
+SNR_do = 30;
+SNR_A = SNR_od:2:SNR_do;
+SNR_BR = 12;
 
 % úroveò šumu na jednotlivých pøijímaèích v -dBW
 PnA = 30;
 PnR = 25;
-PnB = 20;
+PnB = 30;
 
 % Volba modulace 1 - BPSK    2 - QPSK
-zvolmodul= 2;
-% 
+modulace= 2;
+
 % % Volba útlumu tras v dB (kladná hodnota)
 % h_A = 8;
 % h_B = 5;
 
-% Volba typu kanálu 1 - AWGN   2 - Rayleighùv
-kanal = 1;
 
 % % Volba techniky pøenosu 1 - routování   2 - DF  3 - AF  4 - DNF
 % NC = 4;
@@ -36,33 +33,28 @@ kanal = 1;
 data_Ac = generace_dat (N);
 data_Bc = generace_dat (N);
 
-time_bez= zeros(1,4); % èas bez zohlednìní chyb, inicializace matice
 BER = zeros(numel(SNR_A),4,3);
 
-% Vždy se zvolí SNR z øady a pro nìj se vypoèítá BER
-% % Volba techniky pøenosu 1 - routování   2 - DF  3 - AF  4 - DNF
-% NC = 2;
 
-for NC = 3:4     % parfor sem
+for NC = 1:4     % parfor sem
     for t = 1:numel(SNR_A)
         SNR_AR = SNR_A(t);
-%         SNR_BR = SNR_A(t) + SNR_naB;
-        SNR_BR = SNR_naB;
-        BER(t,NC,1:3) = vypocet(data_Ac, data_Bc, SNR_AR, SNR_BR, kanal, zvolmodul, NC, PnA, PnR, PnB);
-        % time_bez - èas metody bez zohlednìní chybovosti
+        BER(t,NC,1:3) = vypocet(data_Ac, data_Bc, SNR_AR, SNR_BR, modulace, NC, PnA, PnR, PnB);
+%         BER(t,NC) = vypocet(data_Ac, data_Bc, SNR_AR, SNR_BR, modulace, NC, PnA, PnR, PnB); % pracovní verze
     end
     fprintf('dokonèena metoda %d\n', NC)
 end
 
 
 
-% Rychlost alternativnì podle Z.
+% Rychlost
 [a,b] = size(BER);
 cas (1:a, 1) = .5;
 cas (1:a, 2) = 2/3;
 cas (1:a, 3:4) = 1;
 rych = cas .* (1-BER(:, :, 3));
 
+% vykreslování grafù
 figure()
 plot(SNR_A, rych)
 grid on
