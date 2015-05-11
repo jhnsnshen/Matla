@@ -5,13 +5,13 @@ clc;
 tic
 %%%%%%%%% Zadání parametrù simulace
 % Poèet pøenášených bitù
-N=10^5; 
+N=10^4; 
 
 % Volba rozsahu SNR a rozdílu na trase BR
 SNR_od = 6;
 SNR_do = 20;
 % SNR_do = SNR_od;  % manuálnì nastavený nulový rozsah SNR pro debugging
-SNR_naB = 20;
+SNR_naB = 16;
 SNR_A = SNR_od:1:SNR_do;
 
 % úroveò šumu na jednotlivých pøijímaèích v -dBW
@@ -20,7 +20,7 @@ PnR = 25;
 PnB = 20;
 
 % Volba modulace 1 - BPSK    2 - QPSK
-zvolmodul= 2;
+zvolmodul= 1;
 % 
 % % Volba útlumu tras v dB (kladná hodnota)
 % h_A = 8;
@@ -43,24 +43,13 @@ BER = zeros(numel(SNR_A),4,3);
 % % Volba techniky pøenosu 1 - routování   2 - DF  3 - AF  4 - DNF
 % NC = 2;
 
-<<<<<<< HEAD
-for NC = 1:4     % parfor sem
-    for t = 1:numel(SNR_A) % t udává aktuální šum na lince AR
-        SNR_AR = SNR_A(t);
-        BER1(NC,1:3) = vypocet(data_Ac, data_Bc, SNR_AR, SNR_BR, modulace, NC, PnA, PnR, PnB);
-%         BER(t,NC,1:3) = vypocet(data_Ac, data_Bc, SNR_AR, SNR_BR, modulace, NC, PnA, PnR, PnB); % pracovní verze
-        
-        BER=[t;BER1]; % potøebuju pro parfor pøedávat pouze jednu promìnnou jako index
-
-=======
-for NC = 3:4     % parfor sem
+for NC = 1:2     % parfor sem
     for t = 1:numel(SNR_A)
         SNR_AR = SNR_A(t);
 %         SNR_BR = SNR_A(t) + SNR_naB;
         SNR_BR = SNR_naB;
         BER(t,NC,1:3) = vypocet(data_Ac, data_Bc, SNR_AR, SNR_BR, kanal, zvolmodul, NC, PnA, PnR, PnB);
         % time_bez - èas metody bez zohlednìní chybovosti
->>>>>>> parent of 6138440... pokus o parfor
     end
     fprintf('dokonèena metoda %d\n', NC)
 end
