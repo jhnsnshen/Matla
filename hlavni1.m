@@ -1,79 +1,57 @@
-% clear all;        %problém clear all je, že maže breakpointy ve funkcích
+clear all;        %problém clear all je, že maže breakpointy ve funkcích
 close all;
 clc;
 
 tic
 %%%%%%%%% Zadání parametrù simulace
 % Poèet pøenášených bitù
-N=10^5; 
+N=10^4; 
 
 % Volba rozsahu SNR a rozdílu na trase BR
-SNR_od = 6;
-SNR_do = 20;
-% SNR_do = SNR_od;  % manuálnì nastavený nulový rozsah SNR pro debugging
-SNR_naB = 20;
-SNR_A = SNR_od:1:SNR_do;
+SNR_od = 2;
+SNR_do = 18;
+SNR_A = SNR_od:2:SNR_do;
+
+SNR_BR = 12;
 
 % úroveò šumu na jednotlivých pøijímaèích v -dBW
-PnA = 30;
-PnR = 25;
+% úroveò bude všude stejná
+PnA = 15;
+PnR = 18;
 PnB = 20;
 
 % Volba modulace 1 - BPSK    2 - QPSK
-zvolmodul= 2;
-% 
+modul= 2;
+
 % % Volba útlumu tras v dB (kladná hodnota)
 % h_A = 8;
 % h_B = 5;
-
-% Volba typu kanálu 1 - AWGN   2 - Rayleighùv
-kanal = 1;
-
-% % Volba techniky pøenosu 1 - routování   2 - DF  3 - AF  4 - DNF
-% NC = 4;
 
 % Generování náhodných dat, c jako celkové
 data_Ac = generace_dat (N);
 data_Bc = generace_dat (N);
 
-time_bez= zeros(1,4); % èas bez zohlednìní chyb, inicializace matice
 BER = zeros(numel(SNR_A),4,3);
 
-% Vždy se zvolí SNR z øady a pro nìj se vypoèítá BER
-% % Volba techniky pøenosu 1 - routování   2 - DF  3 - AF  4 - DNF
-% NC = 2;
 
-<<<<<<< HEAD
-for NC = 1:4     % parfor sem
-    for t = 1:numel(SNR_A) % t udává aktuální šum na lince AR
-        SNR_AR = SNR_A(t);
-        BER1(NC,1:3) = vypocet(data_Ac, data_Bc, SNR_AR, SNR_BR, modulace, NC, PnA, PnR, PnB);
-%         BER(t,NC,1:3) = vypocet(data_Ac, data_Bc, SNR_AR, SNR_BR, modulace, NC, PnA, PnR, PnB); % pracovní verze
-        
-        BER=[t;BER1]; % potøebuju pro parfor pøedávat pouze jednu promìnnou jako index
-
-=======
-for NC = 3:4     % parfor sem
+for NC = 1:4     % parfor here
     for t = 1:numel(SNR_A)
         SNR_AR = SNR_A(t);
-%         SNR_BR = SNR_A(t) + SNR_naB;
-        SNR_BR = SNR_naB;
-        BER(t,NC,1:3) = vypocet(data_Ac, data_Bc, SNR_AR, SNR_BR, kanal, zvolmodul, NC, PnA, PnR, PnB);
-        % time_bez - èas metody bez zohlednìní chybovosti
->>>>>>> parent of 6138440... pokus o parfor
+        BER(t,NC,1:3) = vypocet(data_Ac, data_Bc, SNR_AR, SNR_BR, modul, NC, PnA, PnR, PnB);
     end
     fprintf('dokonèena metoda %d\n', NC)
 end
 
 
 
-% Rychlost alternativnì podle Z.
+% Rychlost
 [a,b] = size(BER);
 cas (1:a, 1) = .5;
 cas (1:a, 2) = 2/3;
 cas (1:a, 3:4) = 1;
 rych = cas .* (1-BER(:, :, 3));
 
+% vykreslování grafù 
 figure()
 plot(SNR_A, rych)
 grid on

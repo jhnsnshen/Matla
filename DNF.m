@@ -1,21 +1,31 @@
-function [ chyby_A, chyby_B ] = DNF ( data_A, data_B, h_A, h_B, SNR_AR, SNR_BR, kanal, zvolmodul )
+function [ chyby_A, chyby_B ] = DNF ( data_A, data_B, SNR_AR, SNR_BR, zvolmodul, PnA, PnR, PnB  )
 % Technika Denoise and Forward
+
+% výpoèet útlumù
+hAR = PnR-SNR_AR; % = -(SNR + PnR)
+hBR = PnR-SNR_BR;
+% hRA = PnA-SNR_AR;
+% hRB = PnB-SNR_BR;
 
 % Mapování symbolù
 symboly_AR = modul (data_A, zvolmodul);
 symboly_BR = modul (data_B, zvolmodul);
 
-% Modelování kanálu vèetnì útlumu
-datasum_AR = model_kanalu (symboly_AR,kanal, SNR_AR, h_A);
-datasum_BR = model_kanalu (symboly_BR,kanal, SNR_BR, h_B);
+% Modelování kanálu a spoleèného pøíjmu
+datasum = model_kanalu2(symboly_AR, hAR, symboly_BR, hBR, PnR);
 
-% Pøíjem na Relayi, souèet a zesílení celkového signálu
-prijato_R = datasum_AR/10^(-h_A/10) + datasum_BR/10^(-h_B/10);
+if (hAR <= hBR)
+    prijato_R = datasum / 10^(-hBR/10);
+else
+    prijato_R = datasum / 10^(-hAR/10);
+end
+
+% Odhad pøijatých dat a pøevod na symboly
 symboly_R = odhad (prijato_R, zvolmodul);
 
 % Odeslání dále
-datasum_RA = model_kanalu(symboly_R, kanal, SNR_AR, h_A);
-datasum_RB = model_kanalu(symboly_R, kanal, SNR_BR, h_B);
+datasum_RA = model_kanalu(symboly_R, SNR_AR, PnA);
+datasum_RB = model_kanalu(symboly_R, SNR_BR, PnB);
 
 % Demodulace na konci
 prijato_A = demodulace ( datasum_RA, zvolmodul);

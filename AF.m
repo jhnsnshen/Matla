@@ -38,8 +38,8 @@ datasum_RA = model_kanalu (odesle_R, SNR_AR, PnA);
 datasum_RB = model_kanalu (odesle_R, SNR_BR, PnB);
 
 % odeètení signálu u pøíjemce
-datasum_A = datasum_RA - 10^(-hRA/10) * symboly_AR;
-datasum_B = datasum_RB - 10^(-hRB/10) * symboly_BR;
+datasum_A = 10^(hRA/10) * datasum_RA - symboly_AR;
+datasum_B = 10^(hRB/10) * datasum_RB - symboly_BR;
 
 % pokus o demodulaci
 datanaA = demodulace (datasum_A, zvolmodul);

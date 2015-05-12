@@ -1,7 +1,6 @@
-function [ BER ] = vypocet( data_Ac, data_Bc, SNR_AR, SNR_BR, kanal, zvolmodul, NC, PnA, PnR, PnB )
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+function [ BER ] = vypocet( data_Ac, data_Bc, SNR_AR, SNR_BR, zvolmodul, NC, PnA, PnR, PnB )
 
+% inicializace promìnných
 BER_A = 0;
 BER_B = 0;
 cas = 0;
@@ -11,12 +10,12 @@ cas = 0;
 % nekompletní paket bude zahozený
 R = 50;  % délka paketu v bitech
 r = floor (numel(data_Ac)/R); % urèení poètu paketù
+
 for s=1:r
     
     data_A = data_Ac((R*(s-1)+1):R*s);
     data_B = data_Bc((R*(s-1)+1):R*s);
-
-    
+   
     
     %% Techniky Network codingu
     switch NC
@@ -46,11 +45,7 @@ BER_B = BER_B / numel (data_Bc);
 
 
 BER = [BER_A BER_B (BER_A+BER_B)];
-<<<<<<< HEAD
-% BER = BER_A+BER_B;
-=======
 
->>>>>>> parent of 6138440... pokus o parfor
 
 end
 

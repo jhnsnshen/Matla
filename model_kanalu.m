@@ -4,7 +4,7 @@ function [ datasum ] = model_kanalu( symboly, SNR, Pnoise )
     h = Pnoise - SNR;
     data = 10^(-h/10) * symboly;
     datasum = data + sum;
-    
+   
 
 %     switch kanal
 %         case 1 % AWGN
