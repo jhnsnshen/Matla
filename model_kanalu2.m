@@ -1,8 +1,9 @@
-function [ datasum ] = model_kanalu2( symboly1, h1, symboly2, h2, Pnoise )
-    nuly (numel(symboly1),1) = 0+.01j;
-    sum = awgn (nuly, Pnoise);
+function [ datasum ] = model_kanalu2( symboly1, symboly2, L1, L2, Pn )
+    nuly (numel(symboly1),1) = (1+1j)*1e-6;
+    sumik = awgn(nuly, 1/Pn, 1, 'linear');
     
-    data1 = 10^(-abs(h1)/10) * symboly1;
-    data2 = 10^(-abs(h2)/10) * symboly2;
-    datasum = data1 + data2  + sum;
+    
+    data1 = L1 .* symboly1;
+    data2 = L2 .* symboly2;
+    datasum = data1 + data2  + sumik;
 end

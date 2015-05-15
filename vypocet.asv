@@ -1,4 +1,4 @@
-function [ BER ] = vypocet( data_Ac, data_Bc, L_A, L_B, zvolmodul, NC, Pn )
+function [ BER ] = vypocet( data_Ac, data_Bc, L_A, SNR_BR, zvolmodul, NC, PnA, PnR, PnB )
 
 % inicializace promìnných
 BER_A = 0;
@@ -20,16 +20,16 @@ for s=1:r
     %% Techniky Network codingu
     switch NC
         case 1 % Routování
-            [chybaA,chybaB] = routovani(data_A, data_B, L_A, L_B, zvolmodul, Pn );
+            [chybaA,chybaB] = routovani(data_A, data_B, SNR_AR, SNR_BR, zvolmodul, PnA, PnR, PnB );
             
         case 2 % Decode and Forward
-            [chybaA,chybaB] = DF(data_A, data_B, L_A, L_B, zvolmodul, Pn );
+            [chybaA,chybaB] = DF(data_A, data_B, SNR_AR, SNR_BR, zvolmodul, PnA, PnR, PnB );
             
         case 3 % Amplify and Forward
-            [chybaA,chybaB] = AF(data_A, data_B, L_A, L_B, zvolmodul, Pn );
+            [chybaA,chybaB] = AF(data_A, data_B, SNR_AR, SNR_BR, zvolmodul, PnA, PnR, PnB );
             
         case 4 % Denoise and Forward
-            [chybaA,chybaB] = DNF(data_A, data_B, L_A, L_B, zvolmodul, Pn );
+            [chybaA,chybaB] = DNF(data_A, data_B, SNR_AR, SNR_BR, zvolmodul, PnA, PnR, PnB );
 
     end
     

@@ -22,7 +22,6 @@ datasum_RB = model_kanalu (odesle_R, L2, Pn);
 
 % odeètení signálu u pøíjemce
 datasum_A = (datasum_RA - L1^2 * symboly_AR)/L1;
-datasum_B = (datasum_RB - L2^2 * symboly_BR)/L2;
 
 % pokus o demodulaci
 datanaA = demodulace (datasum_A, zvolmodul);
