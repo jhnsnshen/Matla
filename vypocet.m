@@ -8,7 +8,7 @@ cas = 0;
 
 % Rozsekání bitù na pakety
 % nekompletní paket bude zahozený
-R = 50;  % délka paketu v bitech
+R = 5000;  % délka paketu v bitech
 r = floor (numel(data_Ac)/R); % urèení poètu paketù
 
 for s=1:r

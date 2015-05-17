@@ -1,26 +1,26 @@
-clear all;        %problém clear all je, že maže breakpointy ve funkcích
+clear all;        % clear all maže breakpointy ve funkcích
 close all;
 clc;
 
 tic
 %%%%%%%%% Zadání parametrù simulace
 % Poèet pøenášených bitù
-N=10^4; 
+N=10^5; 
 
 % Úroveò šumu - stejná pro všechny
 Pn = 10^-4; % [W]
 
-% Volba rozsahu SNR a rozdílu na trase BR
-SNR_od = 0;
-SNR_do = 18;
-SNR_A = SNR_od:2:SNR_do;
+% Volba rozsahu SNR v decibelech
+SNR_od = -10;
+SNR_do = 50;
+SNR_A = SNR_od:1:SNR_do;
 
-SNR_BR = 12;
+SNR_B = 30;
 
 % Pøepoèet SNR na útlumy
-SNR_Alin = 10.^(SNR_A/10);
-L_A = sqrt(SNR_Alin.*Pn^2);
-L_B = sqrt(10^(SNR_BR/10) * Pn^2);
+SNR_Alin = 10.^(SNR_A/10);         
+L_A = sqrt(SNR_Alin .* Pn);         
+L_B = sqrt(10^(SNR_B/10) * Pn);
 
 
 % Volba modulace 1 - BPSK    2 - QPSK
@@ -41,7 +41,6 @@ for NC = 1:3     % parfor here
     end
     fprintf('dokonèena metoda %d\n', NC)
 end
-
 
 
 % Rychlost

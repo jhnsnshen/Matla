@@ -8,12 +8,12 @@ symboly_BR = modul (data_B, zvolmodul);
 
 
 % Modelování kanálu vèetnì útlumu
-prijato_R = model_kanalu2 (symboly_AR, L1, symboly_BR, L2, Pn);
+prijato_R = model_kanalu2 (symboly_AR, symboly_BR, L1, L2, Pn);
 
 
 
 % Zesílení souètu signálù na jednotkovou úroveò
-zesil = sqrt( 1 / (L1^2 + L2^2 + Pn^2));
+zesil = sqrt( 1 / (L1^2 + L2^2 + Pn^2));        %Poèítá zesílení pro výkony?
 odesle_R = zesil * prijato_R;
 
 % model kanálu pøi druhém pøenosu
