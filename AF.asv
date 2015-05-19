@@ -40,16 +40,16 @@ datasum_A = rozdil_A / L1;
 datasum_B = rozdil_B / L2;
 
 
-% % Vykreslování konstelaèních diagramù na koncových jednotkách
-% figure(1)
-% plot(real(prijato_A), imag(prijato_A),'.', real(odecti_A), imag(odecti_A),'o', real(rozdil_A), imag(rozdil_A),'*')
-% legend('Pøijato','Odeète se','po odeètení')
-% title('Chyby B - pøijato na A');
-% 
-% figure(2)
-% plot(real(prijato_B), imag(prijato_B),'.', real(odecti_B), imag(odecti_B),'o', real(rozdil_B), imag(rozdil_B),'*')
-% legend('Pøijato','Odeèítaný','po odeètení')
-% title('Chyby A - pøijato na B');
+Vykreslování konstelaèních diagramù na 
+figure(1)
+plot(real(prijato_A), imag(prijato_A),'.', real(odecti_A), imag(odecti_A),'o', real(rozdil_A), imag(rozdil_A),'*')
+legend('Pøijato','Odeète se','po odeètení')
+title('Chyby B - pøijato na A');
+
+figure(2)
+plot(real(prijato_B), imag(prijato_B),'.', real(odecti_B), imag(odecti_B),'o', real(rozdil_B), imag(rozdil_B),'*')
+legend('Pøijato','Odeèítaný','po odeètení')
+title('Chyby A - pøijato na B');
 
 
 % Pùvodní øešení 

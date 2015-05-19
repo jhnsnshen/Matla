@@ -1,21 +1,22 @@
-clear all;        % clear all maže breakpointy ve funkcích
+clear variables;        % clear all maže breakpointy ve funkcích
 close all;
 clc;
 
 tic
 %%%%%%%%% Zadání parametrù simulace
 % Poèet pøenášených bitù
-N=10^5; 
+N=10^5;
 
 % Úroveò šumu - stejná pro všechny
-Pn = 10^-4; % [W]
+Pn = 10^-6; % [W]
 
-% Volba rozsahu SNR v decibelech
-SNR_od = -10;
-SNR_do = 50;
-SNR_A = SNR_od:1:SNR_do;
+% % Volba rozsahu SNR v decibelech
+SNR_od = 0;
+SNR_do = 40;
+SNR_A = SNR_od:.5:SNR_do;
 
-SNR_B = 30;
+% SNR_A = 60;
+SNR_B = 5;
 
 % Pøepoèet SNR na útlumy
 SNR_Alin = 10.^(SNR_A/10);         
